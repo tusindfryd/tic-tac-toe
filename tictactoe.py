@@ -51,9 +51,10 @@ def result(board, action):
     """
     mark = player(board)
     new_board = deepcopy(board)
-    field = new_board[action[0]][action[1]]
+    i, j = action[0], action[1]
+    field = new_board[i][j]
     if not field:
-        new_board[action[0]][action[1]] = mark
+        new_board[i][j] = mark
     else:
         raise ValueError("Invalid action: field is not empty.")
     return new_board
