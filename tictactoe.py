@@ -20,6 +20,9 @@ def player(board):
     """
     Returns player who has the next turn on a board.
     """
+    if terminal(board):
+        return None
+
     flat_board = [mark for row in board for mark in row]
     if flat_board.count(X) == flat_board.count(O):
         return X
@@ -31,7 +34,15 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
+    if terminal(board):
+        return None
+
+    actions = set()
+    for i in range(len(board)):
+        for j in range(len(board)):
+            if not board[i][j]:
+                actions.add((i, j))
+    return actions
 
 
 def result(board, action):
@@ -40,7 +51,11 @@ def result(board, action):
     """
     mark = player(board)
     new_board = deepcopy(board)
-    new_board[action[0]][action[1]] = mark
+    field = new_board[action[0]][action[1]]
+    if not field:
+        new_board[action[0]][action[1]] = mark
+    else:
+        raise ValueError('Invalid action: field is not empty.')
     return new_board
 
 
@@ -96,4 +111,5 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    actions(board)
     raise NotImplementedError
